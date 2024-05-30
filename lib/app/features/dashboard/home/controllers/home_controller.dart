@@ -1,0 +1,53 @@
+part of home;
+
+class HomeController extends GetxController {
+  //TODO: Implement HomeController
+  final apiService = RestApiServices();
+
+  getAllProduct() => apiService.fetchData(
+      baseUrl: "http://192.168.1.18/backend-penjualan/ProdukAPI.php");
+  getAllExplore() => apiService.fetchData(
+      baseUrl: "http:/192.168.1.18/backend-penjualan/ProdukAPI.php");
+
+  getTopProducts() => apiService.fetchData(
+      baseUrl: "http://192.168.1.18/backend-penjualan/ProdukAPI.php/top");
+
+  void goToDetailProduct(Map<String, dynamic> product) {
+    // print(product);
+    Get.toNamed(Routes.product + "/${product['id_produk']}",
+        arguments: product);
+  }
+
+  void OpenDialogAds() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.dialog(
+        AlertDialog(
+          backgroundColor:
+              Colors.transparent, // Set background color to transparent
+          contentPadding: EdgeInsets.zero, // Remove default padding
+          content: Stack(
+            children: [
+              TextButton(
+                onPressed: () => Get.back(),
+                child: Text('X'),
+              ),
+              SizedBox(
+                // height: 200,
+                child: Image.asset(
+                  "assets/images/adsBanner.jpg",
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    });
+  }
+
+  @override
+  void onInit() {
+    OpenDialogAds();
+    super.onInit();
+  }
+}
